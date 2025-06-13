@@ -1,0 +1,25 @@
+#!/bin/bash
+read -p "Nhập hệ số a: " a
+read -p "Nhập hệ số b: " b
+read -p "Nhập hệ số c: " c
+
+if [ $(echo "$a == 0" | bc -l) -eq 1 ]; then
+    echo "Lỗi: Hệ số a phải khác 0 để là phương trình bậc 2!"
+else
+    delta=$(echo "$b * $b - 4 * $a * $c" | bc -l)
+
+    if [ $(echo "$delta < 0" | bc -l) -eq 1 ]; then
+        echo "Phương trình vô nghiệm (delta < 0)."
+    elif [ $(echo "$delta == 0" | bc -l) -eq 1 ]; then
+        x=$(echo "scale=2; -$b / (2 * $a)" | bc -l)
+        echo "Phương trình có nghiệm kép: x = $x"
+    else
+        x1=$(echo "scale=2; (-$b + sqrt($delta)) / (2 * $a)" | bc -l)
+        x2=$(echo "scale=2; (-$b - sqrt($delta)) / (2 * $a)" | bc -l)
+        echo "Phương trình có hai nghiệm:"
+        echo "x1 = $x1"
+        echo "x2 = $x2"
+    fi
+fi
+
+read -p "Nhấn [Enter] để thoát..."
